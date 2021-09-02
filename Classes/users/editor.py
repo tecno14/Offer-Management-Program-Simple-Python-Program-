@@ -11,3 +11,6 @@ class editor(guest):
 
     def edit(self, offer):
         offer.edit(self)
+
+    def addOffer(self, offer):
+        return self.appMgr.addOffer(self.username, self._password, offer)

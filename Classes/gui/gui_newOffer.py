@@ -26,6 +26,8 @@ from Classes.users.admin import admin
 from Classes.offers.categories import categories
 from Classes.offers.tags import tags
 
+from Classes.offers.offer import offer
+
 class gui_newOffer(QWidget):
     
     def __init__(self, appMgr, user_account):
@@ -52,6 +54,7 @@ class gui_newOffer(QWidget):
         lb_name.setAlignment(Qt.AlignCenter)
         # textbox 
         self.tb_name = QLineEdit()
+        self.tb_name.setText("name")
         # ----- 
         # customer name
         # lable 
@@ -59,6 +62,7 @@ class gui_newOffer(QWidget):
         lb_custName.setAlignment(Qt.AlignCenter)
         # textbox 
         self.tb_custName = QLineEdit()
+        self.tb_custName.setText("custName")
         # -----
         # details
         # lable 
@@ -66,6 +70,7 @@ class gui_newOffer(QWidget):
         lb_det.setAlignment(Qt.AlignCenter)
         # textbox 
         self.tb_det = QLineEdit()
+        self.tb_det.setText("det")
         # -----
         # categories
         # lable 
@@ -74,7 +79,7 @@ class gui_newOffer(QWidget):
         # box 
         self.model_cat = QStandardItemModel()
         self.listView_cat = QListView()
-        for cat in [categories.mobile_app, categories.website, categories.microservice]:
+        for cat in categories.getAllList():
             item = QStandardItem(str(cat).replace('categories.',''))
             item.setCheckable(True)
             # check = \
@@ -91,8 +96,8 @@ class gui_newOffer(QWidget):
         # box 
         self.model_tag = QStandardItemModel()
         self.listView_tag = QListView()
-        for cat in [tags.e_commerce, tags.delivery, tags.maps, tags.tracking]:
-            item = QStandardItem(str(cat).replace('tags.',''))
+        for tag in tags.getAllList():
+            item = QStandardItem(str(tag).replace('tags.',''))
             item.setCheckable(True)
             # check = \
             #     (QtCore.Qt.Checked if checked else QtCore.Qt.Unchecked)
@@ -126,7 +131,7 @@ class gui_newOffer(QWidget):
 
     def bt_Save_clicked(self):
 
-        if self.lb_name.text() == "" or self.lb_custName.text() == "" or self.lb_det.text() == "":
+        if self.tb_name.text() == "" or self.tb_custName.text() == "" or self.tb_det.text() == "":
             msg = QMessageBox()
             msg.setWindowTitle("error")
             msg.setText("empty fields not allowed")
@@ -137,21 +142,33 @@ class gui_newOffer(QWidget):
 
         cats = []
         for i in range(self.model_cat.rowCount()):
-            if self.model_cat.item(i).checkState() == QtCore.Qt.Checked:
-                cats.append()
+            if self.model_cat.item(i).checkState() == Qt.Checked:
+                cats.append(categories[self.model_cat.item(i).text()])
 
-        res = self.user_account.tryUpdateUser(self.tb_ps.text(), self.tb_nps.text())
-        if str(res) == str(user_types.deny):
+        tgs = []
+        for i in range(self.model_tag.rowCount()):
+            if self.model_tag.item(i).checkState() == Qt.Checked:
+                tgs.append(tags[self.model_tag.item(i).text()])
+        
+        newOffer = offer()
+        newOffer.name = self.tb_name.text()
+        newOffer.customerName = self.tb_custName.text()
+        newOffer.details = self.tb_det.text()
+
+        newOffer.categories = cats
+        newOffer.tags = tgs
+
+        res = self.user_account.addOffer(newOffer)
+        if res != True:
             msg = QMessageBox()
             msg.setWindowTitle("error")
-            msg.setText("current password not match")
+            msg.setText("error at adding this offer")
             msg.setIcon(QMessageBox.Critical)
             msg.setStandardButtons(QMessageBox.Ok)
             x = msg.exec_()
             return
-        print("change password return:")
+        print("add offer return:")
         print(res)
-        self.user_account = res
         self.close()
 
     def center(self):

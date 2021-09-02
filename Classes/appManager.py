@@ -66,6 +66,12 @@ class appManager:
 
         return self.__offerMgr.getAll()
 
+    def addOffer(self, username, password, offer):
+        if not isinstance(self.tryLoginUser(username, password), editor):
+            return str(user_types.deny)
+        
+        return self.__offerMgr.addOffer(offer)
+
     def searchByName(self, name):
         if not isinstance(credentialsMgr.tryLoginUser(username, password), guest):
             return str(user_types.deny)

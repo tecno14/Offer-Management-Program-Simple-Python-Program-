@@ -1,7 +1,9 @@
 import os
 import json
-from .categories import categories
-from .tags import tags
+import jsons
+from Classes.offers.categories import categories
+from Classes.offers.offer import offer
+from Classes.offers.tags import tags
 
 class offerManager:
 
@@ -12,7 +14,15 @@ class offerManager:
 
     def __save(self):
         with open(self.offersData, "w") as f:
-            json.dump(self.__offers, f, indent=4)
+            #json.dump(self.__offers.__dict__, f, indent=4)
+            #jsons.dump(self.__offers, f, indent=4)
+            data = {}
+            for i in range(len(self.__offers)):
+                data[str(i)] = self.__offers[i].toJSON()
+            # if bool(data):
+            json.dump(data, f, indent=4)
+            # else
+
 
     def getAll(self):
 
@@ -21,10 +31,11 @@ class offerManager:
 
         if self.__offers == None:
             try:
-            #if os.path.exists(self.offersData):
+                self.__offers = []
                 with open(self.offersData) as f:
-                    self.__offers = json.load(f)
-            #else:
+                    data = list(json.load(f).values())
+                for i in data:
+                    self.__offers.append(offer(i))
             except:
                 self.__offers = []
                 self.__save() 
@@ -69,8 +80,7 @@ class offerManager:
                 res.append(i)
         return res
 
-    def addOffer(self, offer, user_account):
-        if not isinstance(user_account, editor):
-            return str(user_types.deny)
+    def addOffer(self, offer):
         self.__offers.append(offer)
         self.__save()
+        return True

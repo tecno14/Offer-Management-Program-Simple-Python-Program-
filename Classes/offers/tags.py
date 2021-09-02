@@ -5,3 +5,12 @@ class tags(enum.Enum):
     delivery = "delivery"
     maps = "maps"
     tracking = "tracking"
+
+    @staticmethod
+    def getAllList():
+        return [
+            tags.e_commerce,
+            tags.delivery,
+            tags.maps,
+            tags.tracking
+        ]
