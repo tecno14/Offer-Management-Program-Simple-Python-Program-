@@ -13,5 +13,48 @@
         ],
         "path": ".\\offers\\25c67343-ddb9-4059-9278-c2d7a3ffc757.docx",
         "pdf": ".\\pdf\\25c67343-ddb9-4059-9278-c2d7a3ffc757.pdf"
+    },
+    "1": {
+        "id": "f45d51b3-5e1a-4b7a-a42a-ef4a7df63ce7",
+        "name": "name2",
+        "customerName": "custName2",
+        "details": "det2",
+        "categories": [
+            "categories.mobile_app",
+            "categories.website",
+            "categories.microservice"
+        ],
+        "tags": [
+            "tags.e_commerce",
+            "tags.delivery",
+            "tags.maps",
+            "tags.tracking"
+        ],
+        "path": ".\\offers\\f45d51b3-5e1a-4b7a-a42a-ef4a7df63ce7.docx",
+        "pdf": ".\\pdf\\f45d51b3-5e1a-4b7a-a42a-ef4a7df63ce7.pdf"
+    },
+    "2": {
+        "id": "f134f9d1-a997-417b-bb0c-c61bf0b10f20",
+        "name": "name",
+        "customerName": "custName",
+        "details": "det",
+        "categories": [
+            "categories.website"
+        ],
+        "tags": [],
+        "path": ".\\offers\\f134f9d1-a997-417b-bb0c-c61bf0b10f20.docx",
+        "pdf": ".\\pdf\\f134f9d1-a997-417b-bb0c-c61bf0b10f20.pdf"
+    },
+    "3": {
+        "id": "eb747f97-c07c-4330-8c55-82e36ab3a779",
+        "name": "name",
+        "customerName": "custName",
+        "details": "det",
+        "categories": [],
+        "tags": [
+            "tags.tracking"
+        ],
+        "path": ".\\offers\\eb747f97-c07c-4330-8c55-82e36ab3a779.docx",
+        "pdf": ".\\pdf\\eb747f97-c07c-4330-8c55-82e36ab3a779.pdf"
     }
 }

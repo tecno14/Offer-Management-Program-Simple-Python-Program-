@@ -12,7 +12,8 @@ from PyQt5.QtWidgets import (
     QLineEdit,
     QMessageBox,
     QComboBox,
-    QListView
+    QListView,
+    QDialog
 )
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont, QStandardItemModel, QStandardItem
@@ -28,7 +29,7 @@ from Classes.offers.tags import tags
 
 from Classes.offers.offer import offer
 
-class gui_editOffer(QWidget):
+class gui_editOffer(QDialog):
     
     def __init__(self, appMgr, user_account):
         super().__init__()

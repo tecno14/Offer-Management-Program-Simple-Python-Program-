@@ -80,10 +80,12 @@ class gui_home(QWidget):
             # Edit button
             bt_editOffer = QPushButton("Edit", parent=self)
             bt_editOffer.clicked.connect(self.bt_editOffer_clicked)
+            bt_editOffer.setEnabled(False)
 
         # make copy button
         bt_copyOffer = QPushButton("Make a copy", parent=self)
         bt_copyOffer.clicked.connect(self.bt_copyOffer_clicked)
+        bt_copyOffer.setEnabled(False)
 
         # Change My password button
         bt_chgPass = QPushButton("Change my password", parent=self)
@@ -92,21 +94,6 @@ class gui_home(QWidget):
 
         # table
         
-        # table_model = MyTableModel(self, data_list, header)
-        # table_view = QtWidgets.QTableView()
-        # table_view.setModel(table_model)
-        # # set font
-        # font = QtGui.QFont("Courier New", 14)
-        # table_view.setFont(font)
-        # # set column width to fit contents (set font first!)
-        # table_view.resizeColumnsToContents()
-        # # enable sorting
-        # table_view.setSortingEnabled(True)
-        # layout = QtWidgets.QVBoxLayout(self)
-        # layout.addWidget(table_view)
-        # self.setLayout(layout)
-
-
         self.header = ['Name', 'Customer Name', 'Details', 'Categories', 'Tags']
         data_list = []
 
@@ -129,10 +116,10 @@ class gui_home(QWidget):
         # full line selection
         self.offers_view.setSelectionBehavior(QAbstractItemView.SelectRows)
         
+        # selection action
         # self.offers_view.selectionChanged.connect(self.on_change)
-
-        # selectionModel = self.offers_view.selectionModel()
-        # selectionModel.selectionChanged.connect(self.on_change)
+        selectionModel = self.offers_view.selectionModel()
+        selectionModel.selectionChanged.connect(self.on_selectionChanged)
 
         main_layout.addWidget(lb_header, 1, 1)
         main_layout.addWidget(self.offers_view, 4, 1)
@@ -155,22 +142,25 @@ class gui_home(QWidget):
 
     def bt_addUser_clicked(self):
         self.add_user = gui_addUser(self.appMgr, self.user_account)
-        self.add_user.show()
+        self.add_user.exec()
 
     def bt_newOffer_clicked(self):
         self.newOffer = gui_newOffer(self.appMgr, self.user_account)
-        self.newOffer.show()
+        self.newOffer.exec()
+        self.refrech_offers()
 
     
     def bt_editOffer_clicked(self):
+        self.refrech_offers()
         return
     
     def bt_copyOffer_clicked(self):
+        self.refrech_offers()
         return
         
     def bt_chgPass_clicked(self):
         self.gui_chgPass = gui_chgPass(self.appMgr, self.user_account)
-        self.gui_chgPass.show()
+        self.gui_chgPass.exec()
 
 
     def refrech_offers(self):
@@ -197,15 +187,9 @@ class gui_home(QWidget):
         table_model = MyTableModel(self, data_list, self.header)
         self.offers_view.setModel(table_model)
 
-        # self.listWidget.clear()
-
-        # for offer in self.user_account.getAllOffers():
-        #     item = QTableView()
-        #     item.setText(str(offer.))
-        #     self.listWidget.addItem(item)
-
-    def on_change(self):
-
+    def on_selectionChanged(self):
+        print(selectedIndexes())   
+        print(type(selectedIndexes()))
         return
 
     def center(self):

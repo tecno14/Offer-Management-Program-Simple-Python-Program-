@@ -11,7 +11,8 @@ from PyQt5.QtWidgets import (
     QDesktopWidget,
     QLineEdit,
     QMessageBox,
-    QComboBox
+    QComboBox,
+    QDialog
 )
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QFont
@@ -22,7 +23,7 @@ from Classes.users.guest import guest
 from Classes.users.editor import editor
 from Classes.users.admin import admin
 
-class gui_chgPass(QWidget):
+class gui_chgPass(QDialog):
     
     def __init__(self, appMgr, user_account):
         super().__init__()
