@@ -18,8 +18,8 @@ class offer(object):
             self.name = data["name"] 
             self.customerName = data["customerName"]
             self.details = data["details"]
-            self.categories = [categories[x] for x in data["categories"]]
-            self.tags = [tags[x] for x in data["tags"]]
+            self.categories = [categories[x.replace("categories.","")] for x in data["categories"]]
+            self.tags = [tags[x.replace("tags.","")] for x in data["tags"]]
 
             self.path = data["path"]
             self.pdf = data["pdf"]

@@ -90,29 +90,52 @@ class gui_home(QWidget):
         bt_chgPass.clicked.connect(self.bt_chgPass_clicked)
 
 
+        # table
+        
         # table_model = MyTableModel(self, data_list, header)
         # table_view = QtWidgets.QTableView()
         # table_view.setModel(table_model)
+        # # set font
+        # font = QtGui.QFont("Courier New", 14)
+        # table_view.setFont(font)
+        # # set column width to fit contents (set font first!)
+        # table_view.resizeColumnsToContents()
+        # # enable sorting
+        # table_view.setSortingEnabled(True)
+        # layout = QtWidgets.QVBoxLayout(self)
+        # layout.addWidget(table_view)
+        # self.setLayout(layout)
 
 
         self.header = ['Name', 'Customer Name', 'Details', 'Categories', 'Tags']
-        # data_list = []
-        # table_model = MyTableModel(self, data_list, self.header)
-        self.offers_list = QTableView()
+        data_list = []
 
-        # self.offers_list.setModel(table_model)
+        table_model = MyTableModel(self, data_list, self.header)
+        self.offers_view = QTableView()
+        self.offers_view.setModel(table_model)
+        # set font
+        font = QFont("Courier New", 9)
+        self.offers_view.setFont(font)
+
         # set column width to fit contents (set font first!)
-        self.offers_list.resizeColumnsToContents()
+        self.offers_view.resizeColumnsToContents()
+        
         # enable sorting
-        self.offers_list.setSortingEnabled(True)
-        #self.offers_list.setSelectionMode(QAbstractItemView.SingleSelection)
-        #self.offers_list.selectionChanged.connect(self.on_change)
+        # self.offers_view.setSortingEnabled(True)
 
-        # selectionModel = self.offers_list.selectionModel()
+        # SingleSelection
+        self.offers_view.setSelectionMode(QAbstractItemView.SingleSelection)
+
+        # full line selection
+        self.offers_view.setSelectionBehavior(QAbstractItemView.SelectRows)
+        
+        # self.offers_view.selectionChanged.connect(self.on_change)
+
+        # selectionModel = self.offers_view.selectionModel()
         # selectionModel.selectionChanged.connect(self.on_change)
 
         main_layout.addWidget(lb_header, 1, 1)
-        main_layout.addWidget(self.offers_list, 4, 1)
+        main_layout.addWidget(self.offers_view, 4, 1)
 
         bt_list = QVBoxLayout()
         if self.is_admin:
@@ -152,10 +175,8 @@ class gui_home(QWidget):
 
     def refrech_offers(self):
 
-        #self.offers_list.reset()
+        #self.offers_view.reset()
         data_list = []
-        table_model = MyTableModel(self, data_list, self.header)
-        self.offers_list = QTableView()
         for offer in self.user_account.getAllOffers():
             
             offer_categories = ', '.join([str(x) for x in offer.categories])
@@ -172,9 +193,10 @@ class gui_home(QWidget):
                 offer_categories,
                 offer_tags,
             ))
-        self.offers_list.setModel(table_model)
-
         
+        table_model = MyTableModel(self, data_list, self.header)
+        self.offers_view.setModel(table_model)
+
         # self.listWidget.clear()
 
         # for offer in self.user_account.getAllOffers():
@@ -220,11 +242,11 @@ class MyTableModel(QAbstractTableModel):
             return self.header[col]
         return None
 
-    def sort(self, col, order):
-        """sort table by given column number col"""
-        self.emit(SIGNAL("layoutAboutToBeChanged()"))
-        self.mylist = sorted(self.mylist,
-                             key=operator.itemgetter(col))
-        if order == Qt.DescendingOrder:
-            self.mylist.reverse()
-        self.emit(SIGNAL("layoutChanged()"))
+    # def sort(self, col, order):
+    #     """sort table by given column number col"""
+    #     self.emit(SIGNAL("layoutAboutToBeChanged()"))
+    #     self.mylist = sorted(self.mylist,
+    #                          key=operator.itemgetter(col))
+    #     if order == Qt.DescendingOrder:
+    #         self.mylist.reverse()
+    #     self.emit(SIGNAL("layoutChanged()"))

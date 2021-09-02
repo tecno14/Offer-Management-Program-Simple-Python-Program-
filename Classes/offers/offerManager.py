@@ -14,15 +14,10 @@ class offerManager:
 
     def __save(self):
         with open(self.offersData, "w") as f:
-            #json.dump(self.__offers.__dict__, f, indent=4)
-            #jsons.dump(self.__offers, f, indent=4)
             data = {}
             for i in range(len(self.__offers)):
                 data[str(i)] = self.__offers[i].toJSON()
-            # if bool(data):
             json.dump(data, f, indent=4)
-            # else
-
 
     def getAll(self):
 
@@ -30,17 +25,18 @@ class offerManager:
             os.makedirs(self.offersDir)
 
         if self.__offers == None:
-            try:
+            # try:
                 self.__offers = []
                 with open(self.offersData) as f:
                     data = list(json.load(f).values())
                 for i in data:
                     self.__offers.append(offer(i))
-            except:
-                self.__offers = []
-                self.__save() 
+            # except:
+            #     self.__offers = []
+            #     self.__save() 
 
         return self.__offers
+
 
     def searchByName(self, name): #offer name
         res = []

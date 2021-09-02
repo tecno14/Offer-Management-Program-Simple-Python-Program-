@@ -1,50 +1,17 @@
 {
     "0": {
-        "id": "a4aaa316-f74c-46e8-8ef4-3a917527159e",
+        "id": "25c67343-ddb9-4059-9278-c2d7a3ffc757",
         "name": "name",
         "customerName": "custName",
         "details": "det",
         "categories": [
-            "categories.microservice"
+            "categories.website"
         ],
         "tags": [
-            "tags.e_commerce"
+            "tags.maps",
+            "tags.tracking"
         ],
-        "path": ".\\offers\\a4aaa316-f74c-46e8-8ef4-3a917527159e.docx",
-        "pdf": ".\\pdf\\a4aaa316-f74c-46e8-8ef4-3a917527159e.pdf"
-    },
-    "1": {
-        "id": "bd8d3da1-434a-4207-8c5d-88ed703dc128",
-        "name": "name",
-        "customerName": "custName",
-        "details": "det",
-        "categories": [],
-        "tags": [],
-        "path": ".\\offers\\bd8d3da1-434a-4207-8c5d-88ed703dc128.docx",
-        "pdf": ".\\pdf\\bd8d3da1-434a-4207-8c5d-88ed703dc128.pdf"
-    },
-    "2": {
-        "id": "b09c8020-82e7-4fbb-bc40-980bbbbc25d0",
-        "name": "name",
-        "customerName": "custName",
-        "details": "det",
-        "categories": [
-            "categories.mobile_app"
-        ],
-        "tags": [],
-        "path": ".\\offers\\b09c8020-82e7-4fbb-bc40-980bbbbc25d0.docx",
-        "pdf": ".\\pdf\\b09c8020-82e7-4fbb-bc40-980bbbbc25d0.pdf"
-    },
-    "3": {
-        "id": "5c539cc2-eff9-4f4c-9111-00ca342e7b6d",
-        "name": "name",
-        "customerName": "custName",
-        "details": "det",
-        "categories": [],
-        "tags": [
-            "tags.e_commerce"
-        ],
-        "path": ".\\offers\\5c539cc2-eff9-4f4c-9111-00ca342e7b6d.docx",
-        "pdf": ".\\pdf\\5c539cc2-eff9-4f4c-9111-00ca342e7b6d.pdf"
+        "path": ".\\offers\\25c67343-ddb9-4059-9278-c2d7a3ffc757.docx",
+        "pdf": ".\\pdf\\25c67343-ddb9-4059-9278-c2d7a3ffc757.pdf"
     }
 }
