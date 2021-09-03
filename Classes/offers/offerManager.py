@@ -7,7 +7,7 @@ from Classes.offers.tags import tags
 
 class offerManager:
 
-    def __init__(self, offersDir=".\\offers\\", offersData="offers.json"):
+    def __init__(self, offersDir=".\\Offers\\", offersData="offers.json"):
         self.__offers = None
         self.offersDir = offersDir
         self.offersData = offersData

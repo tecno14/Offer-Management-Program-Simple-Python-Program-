@@ -1,4 +1,6 @@
 import sys
+import threading
+
 from PyQt5.QtWidgets import (
     QApplication,
     QLabel,
@@ -112,8 +114,14 @@ class gui_home(QWidget):
             bt_editOffer.setEnabled(False)
             self.bt_editOffer = bt_editOffer
 
+            # edit Document button
+            bt_editOfferDoc = QPushButton("Edit offer document", parent=self)
+            bt_editOfferDoc.clicked.connect(self.bt_copyOfferDoc_clicked)
+            bt_editOfferDoc.setEnabled(False)
+            self.bt_editOfferDoc = bt_editOfferDoc
+
         # make copy button
-        bt_copyOffer = QPushButton("Make a copy", parent=self)
+        bt_copyOffer = QPushButton("Read offer document", parent=self)
         bt_copyOffer.clicked.connect(self.bt_copyOffer_clicked)
         bt_copyOffer.setEnabled(False)
         self.bt_copyOffer = bt_copyOffer
@@ -164,6 +172,7 @@ class gui_home(QWidget):
         if self.is_editor:
             bt_list.addWidget(bt_newOffer)
             bt_list.addWidget(bt_editOffer)
+            bt_list.addWidget(bt_editOfferDoc)
         bt_list.addWidget(bt_copyOffer)
         bt_list.addWidget(bt_chgPass)
         
@@ -205,11 +214,20 @@ class gui_home(QWidget):
         self.newOffer.exec()
         self.refrech_offers()
 
-    
+    def bt_copyOfferDoc_clicked(self):
+        if self.lastSelectedOffer == None:
+            self.bt_editOffer.setEnabled(False)
+            self.bt_copyOffer.setEnabled(False)
+            self.bt_editOfferDoc.setEnabled(False)
+            return
+        self.tCopyDoc = threading.Thread(target=self.user_account.edit(self.lastSelectedOffer))
+        self.tCopyDoc.start()
+
     def bt_editOffer_clicked(self):
         if self.lastSelectedOffer == None:
             self.bt_editOffer.setEnabled(False)
             self.bt_copyOffer.setEnabled(False)
+            self.bt_editOfferDoc.setEnabled(False)
             return
         self.editOffer = gui_editOffer(self.appMgr, self.user_account, self.lastSelectedOffer)
         self.editOffer.exec()
@@ -219,9 +237,10 @@ class gui_home(QWidget):
         if self.lastSelectedOffer == None:
             self.bt_editOffer.setEnabled(False)
             self.bt_copyOffer.setEnabled(False)
+            self.bt_editOfferDoc.setEnabled(False)
             return
-        self.refrech_offers()
-        return
+        self.tCopy = threading.Thread(target=self.user_account.read(self.lastSelectedOffer))
+        self.tCopy.start()
         
     def bt_chgPass_clicked(self):
         self.gui_chgPass = gui_chgPass(self.appMgr, self.user_account)
@@ -256,11 +275,13 @@ class gui_home(QWidget):
     def on_selectionChanged(self, selected, deselected):
         self.bt_editOffer.setEnabled(False)
         self.bt_copyOffer.setEnabled(False)
+        self.bt_editOfferDoc.setEnabled(False)
         self.lastSelectedOffer = None
         for i in list(set([i.row() for i in self.offers_view.selectionModel().selectedIndexes()])):
             self.lastSelectedOffer = self.user_account.getAllOffers()[i]
             self.bt_editOffer.setEnabled(True)
             self.bt_copyOffer.setEnabled(True)
+            self.bt_editOfferDoc.setEnabled(True)
             
     def center(self):
         qtRectangle = self.frameGeometry()

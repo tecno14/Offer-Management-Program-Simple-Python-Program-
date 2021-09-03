@@ -14,20 +14,20 @@ class guest(user):
     def getAllOffers(self):
         return self.appMgr.getAllOffers(self.username, self._password)
 	
-    def searchByName(self, name):
-        return self.appMgr.searchByName(name)
+    # def searchByName(self, name):
+    #     return self.appMgr.searchByName(name)
 
-    def searchByCategory(self, category):
-        return self.appMgr.searchByCategory(category)
+    # def searchByCategory(self, category):
+    #     return self.appMgr.searchByCategory(category)
 
-    def searchByTag(self, tag):
-        return self.appMgr.searchByTag(tag)
+    # def searchByTag(self, tag):
+    #     return self.appMgr.searchByTag(tag)
 
-    def searchByTags(self, tags):
-        return self.appMgr.searchByTags(tags)
+    # def searchByTags(self, tags):
+    #     return self.appMgr.searchByTags(tags)
 
-    def searchByCustomerName(self, name):
-        return self.appMgr.searchByCustomerName(name)
+    # def searchByCustomerName(self, name):
+    #     return self.appMgr.searchByCustomerName(name)
     
     def read(self, offer):
         offer.read(self)

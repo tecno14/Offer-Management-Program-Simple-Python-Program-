@@ -72,6 +72,12 @@ class appManager:
         
         return self.__offerMgr.addOffer(offer)
 
+    # def copyOffer(self, username, password, offer):
+    #     if not isinstance(self.tryLoginUser(username, password), editor):
+    #         return str(user_types.deny)
+        
+    #     return self.__offerMgr.addOffer(offer)
+
     def saveOffers(self):
         self.__offerMgr.save()
 
