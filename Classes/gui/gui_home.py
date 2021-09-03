@@ -36,7 +36,7 @@ class gui_home(QWidget):
     def __init__(self, appMgr, user_account):
         super().__init__()
         # self.setFixedSize(700, 400)
-        self.setGeometry(100, 100, 700, 400 )
+        self.setGeometry(100, 100, 700, 400)
         self.center()
         self.setWindowTitle("Home - ({})".format(str(user_account)))
         self.setObjectName("gui_home")
@@ -72,12 +72,16 @@ class gui_home(QWidget):
         lb_searchBy.setAlignment(Qt.AlignRight)
 
         # combo
+        self.ByNameOfOffer = "Name of offer"
+        self.ByCustomerName = "Customer name"
+        self.ByCategory = "Category"
+        self.BtTag = "Tag"
+
         self.search_type = QComboBox()
-        self.search_type.addItem("Name of offer")
-        self.search_type.addItem("Customer name")
-        self.search_type.addItem("Category")
-        self.search_type.addItem("Tag")
-        #userType = "user_types.{}".format(str(self.search_type.currentText()))
+        self.search_type.addItem(self.ByNameOfOffer)
+        self.search_type.addItem(self.ByCustomerName)
+        self.search_type.addItem(self.ByCategory)
+        self.search_type.addItem(self.BtTag)
 
         # search button
         self.bt_search = QPushButton("Search", parent=self)
@@ -169,7 +173,28 @@ class gui_home(QWidget):
         self.setLayout(main_layout)
     
     def lb_searchBy_clicked(self):
-        return
+        searchQuery = self.tb_search.text()
+        if searchQuery == "":
+            self.refrech_offers()
+            return
+        #     msg = QMessageBox()
+        #     msg.setWindowTitle("error")
+        #     msg.setText("search empty")
+        #     msg.setIcon(QMessageBox.Critical)
+        #     msg.setStandardButtons(QMessageBox.Ok)
+        #     x = msg.exec_()
+        #     return
+
+        searchType = self.search_type.currentText()
+        if searchType == self.ByNameOfOffer:
+            self.refrech_offers(self.appMgr.searchByName(searchQuery))
+        elif searchType == self.ByCustomerName:
+            self.refrech_offers(self.appMgr.searchByCustomerName(searchQuery))
+        elif searchType == self.ByCategory:
+            self.refrech_offers(self.appMgr.searchByCategory(searchQuery))
+        elif searchType == self.BtTag:
+            self.refrech_offers(self.appMgr.searchByTag(searchQuery))
+        
 
     def bt_addUser_clicked(self):
         self.add_user = gui_addUser(self.appMgr, self.user_account)
@@ -203,9 +228,13 @@ class gui_home(QWidget):
         self.gui_chgPass.exec()
 
 
-    def refrech_offers(self):
+    def refrech_offers(self, offerSource=None):
+
+        if offerSource == None:
+            offerSource = self.user_account.getAllOffers()
+
         data_list = []
-        for offer in self.user_account.getAllOffers():
+        for offer in offerSource:
             
             offer_categories = ', '.join([str(x) for x in offer.categories])
             offer_categories.replace('categories.', '')

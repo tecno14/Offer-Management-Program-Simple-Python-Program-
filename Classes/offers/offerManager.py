@@ -46,19 +46,31 @@ class offerManager:
         return res
 
     def searchByCategory(self, category):
-        category = str(category)
+        lookFor = []
+        for i in categories.getAllList():
+            if category in str(i).replace('categories.',''):
+                lookFor.append(i)
+        
         res = []
-        for i in self.__offers:
-            if category in i.categories:
-                res.append(i)
+        for o in self.__offers:
+            for c in lookFor:
+                if c in o.categories:
+                    res.append(o)
+                    continue
         return res
         
     def searchByTag(self, tag):
-        tag = str(tag)
+        lookFor = []
+        for i in tags.getAllList():
+            if tag in str(i).replace('tags.',''):
+                lookFor.append(i)
+        
         res = []
-        for i in self.__offers:
-            if tag in i.tags:
-                res.append(i)
+        for o in self.__offers:
+            for t in lookFor:
+                if t in o.tags:
+                    res.append(o)
+                    continue
         return res
     
     def searchByTags(self, tags):

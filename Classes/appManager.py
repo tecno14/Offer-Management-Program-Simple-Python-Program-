@@ -76,28 +76,18 @@ class appManager:
         self.__offerMgr.save()
 
     def searchByName(self, name):
-        if not isinstance(credentialsMgr.tryLoginUser(username, password), guest):
-            return str(user_types.deny)
         return self.__offerMgr.searchByName(name)
 
     def searchByCategory(self, category):
-        if not isinstance(credentialsMgr.tryLoginUser(username, password), guest):
-            return str(user_types.deny)
         return self.__offerMgr.searchByCategory(category)
 
     def searchByTag(self, tag):
-        if not isinstance(credentialsMgr.tryLoginUser(username, password), guest):
-            return str(user_types.deny)
         return self.__offerMgr.searchByTag(tag)
 
     def searchByTags(self, tags):
-        if not isinstance(credentialsMgr.tryLoginUser(username, password), guest):
-            return str(user_types.deny)
         return self.__offerMgr.searchByTags(tags)
 
     def searchByCustomerName(self, name):
-        if not isinstance(credentialsMgr.tryLoginUser(username, password), guest):
-            return str(user_types.deny)
         return self.__offerMgr.searchByCustomerName(name)
 
 
