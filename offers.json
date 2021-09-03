@@ -3,7 +3,7 @@
         "id": "25c67343-ddb9-4059-9278-c2d7a3ffc757",
         "name": "name",
         "customerName": "custName",
-        "details": "det",
+        "details": "detasdasdasdasda",
         "categories": [
             "categories.website"
         ],
@@ -20,14 +20,10 @@
         "customerName": "custName2",
         "details": "det2",
         "categories": [
-            "categories.mobile_app",
-            "categories.website",
             "categories.microservice"
         ],
         "tags": [
             "tags.e_commerce",
-            "tags.delivery",
-            "tags.maps",
             "tags.tracking"
         ],
         "path": ".\\offers\\f45d51b3-5e1a-4b7a-a42a-ef4a7df63ce7.docx",
@@ -47,19 +43,15 @@
     },
     "3": {
         "id": "eb747f97-c07c-4330-8c55-82e36ab3a779",
-        "name": "33333333",
-        "customerName": "666666666666",
+        "name": "rew",
+        "customerName": "ewr",
         "details": "det",
         "categories": [
-            "categories.mobile_app",
-            "categories.website",
-            "categories.microservice"
+            "categories.mobile_app"
         ],
         "tags": [
             "tags.e_commerce",
-            "tags.delivery",
-            "tags.maps",
-            "tags.tracking"
+            "tags.delivery"
         ],
         "path": ".\\offers\\eb747f97-c07c-4330-8c55-82e36ab3a779.docx",
         "pdf": ".\\pdf\\eb747f97-c07c-4330-8c55-82e36ab3a779.pdf"

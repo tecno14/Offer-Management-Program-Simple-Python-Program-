@@ -12,10 +12,12 @@ from PyQt5.QtWidgets import (
     QLineEdit,
     QMessageBox,
     QAbstractItemView,
-    QTableView
+    QTableView,
+    QComboBox,
+    QHeaderView
 )
 from PyQt5.QtCore import Qt, QAbstractTableModel, pyqtSignal
-SIGNAL = pyqtSignal
+# SIGNAL = pyqtSignal
 from PyQt5.QtGui import QFont
 
 from Classes.users.user_types import user_types 
@@ -33,7 +35,8 @@ class gui_home(QWidget):
 
     def __init__(self, appMgr, user_account):
         super().__init__()
-        self.setFixedSize(700, 400)
+        # self.setFixedSize(700, 400)
+        self.setGeometry(100, 100, 700, 400 )
         self.center()
         self.setWindowTitle("Home - ({})".format(str(user_account)))
         self.setObjectName("gui_home")
@@ -59,10 +62,31 @@ class gui_home(QWidget):
         lb_header.setAlignment(Qt.AlignLeft)
         lb_header.setFont(QFont("Times", pointSize=10))
 
+        # tb search
+        self.tb_search = QLineEdit()
+        self.tb_search.setText("search here")
+
+        # lable header
+        lb_searchBy = QLabel()
+        lb_searchBy.setText("Search by")
+        lb_searchBy.setAlignment(Qt.AlignRight)
+
+        # combo
+        self.search_type = QComboBox()
+        self.search_type.addItem("Name of offer")
+        self.search_type.addItem("Customer name")
+        self.search_type.addItem("Category")
+        self.search_type.addItem("Tag")
+        #userType = "user_types.{}".format(str(self.search_type.currentText()))
+
+        # search button
+        self.bt_search = QPushButton("Search", parent=self)
+        self.bt_search.clicked.connect(self.lb_searchBy_clicked)
+
         # lable Current offers
-        lb_header = QLabel()
-        lb_header.setText("Current offers")
-        lb_header.setAlignment(Qt.AlignLeft)
+        lb_currOffer = QLabel()
+        lb_currOffer.setText("Current offers")
+        lb_currOffer.setAlignment(Qt.AlignLeft)
 
 
         # Add User button
@@ -96,7 +120,6 @@ class gui_home(QWidget):
 
 
         # table
-        
         self.header = ['Name', 'Customer Name', 'Details', 'Categories', 'Tags']
         data_list = []
         self.lastSelectedOffer = None
@@ -109,19 +132,27 @@ class gui_home(QWidget):
         self.offers_view.setFont(font)
 
         # set column width to fit contents (set font first!)
-        self.offers_view.resizeColumnsToContents()
-        
+        self.offers_view.resizeColumnsToContents()    
         # enable sorting
         # self.offers_view.setSortingEnabled(True)
-
         # SingleSelection
         self.offers_view.setSelectionMode(QAbstractItemView.SingleSelection)
-
         # full line selection
         self.offers_view.setSelectionBehavior(QAbstractItemView.SelectRows)
+
+        header = self.offers_view.horizontalHeader()
+        header.setSectionResizeMode(QHeaderView.ResizeToContents)
         
         main_layout.addWidget(lb_header, 1, 1)
-        main_layout.addWidget(self.offers_view, 4, 1)
+
+        main_layout.addWidget(self.tb_search, 2, 1)
+        main_layout.addWidget(lb_searchBy, 2, 2)
+        main_layout.addWidget(self.search_type, 2, 3)
+        
+        main_layout.addWidget(self.bt_search, 3, 3)
+        main_layout.addWidget(lb_currOffer, 3, 1)
+
+        main_layout.addWidget(self.offers_view, 4, 1, 1, 3)
 
         bt_list = QVBoxLayout()
         if self.is_admin:
@@ -137,6 +168,9 @@ class gui_home(QWidget):
         self.refrech_offers()
         self.setLayout(main_layout)
     
+    def lb_searchBy_clicked(self):
+        return
+
     def bt_addUser_clicked(self):
         self.add_user = gui_addUser(self.appMgr, self.user_account)
         self.add_user.exec()
