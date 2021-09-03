@@ -26,6 +26,7 @@ from Classes.users.admin import admin
 from Classes.gui.gui_addUser import gui_addUser
 from Classes.gui.gui_chgPass import gui_chgPass
 from Classes.gui.gui_newOffer import gui_newOffer
+from Classes.gui.gui_editOffer import gui_editOffer
 # from Classes.appManager import appManager
 
 class gui_home(QWidget):
@@ -81,11 +82,13 @@ class gui_home(QWidget):
             bt_editOffer = QPushButton("Edit", parent=self)
             bt_editOffer.clicked.connect(self.bt_editOffer_clicked)
             bt_editOffer.setEnabled(False)
+            self.bt_editOffer = bt_editOffer
 
         # make copy button
         bt_copyOffer = QPushButton("Make a copy", parent=self)
         bt_copyOffer.clicked.connect(self.bt_copyOffer_clicked)
         bt_copyOffer.setEnabled(False)
+        self.bt_copyOffer = bt_copyOffer
 
         # Change My password button
         bt_chgPass = QPushButton("Change my password", parent=self)
@@ -96,6 +99,7 @@ class gui_home(QWidget):
         
         self.header = ['Name', 'Customer Name', 'Details', 'Categories', 'Tags']
         data_list = []
+        self.lastSelectedOffer = None
 
         table_model = MyTableModel(self, data_list, self.header)
         self.offers_view = QTableView()
@@ -116,11 +120,6 @@ class gui_home(QWidget):
         # full line selection
         self.offers_view.setSelectionBehavior(QAbstractItemView.SelectRows)
         
-        # selection action
-        # self.offers_view.selectionChanged.connect(self.on_change)
-        selectionModel = self.offers_view.selectionModel()
-        selectionModel.selectionChanged.connect(self.on_selectionChanged)
-
         main_layout.addWidget(lb_header, 1, 1)
         main_layout.addWidget(self.offers_view, 4, 1)
 
@@ -136,10 +135,8 @@ class gui_home(QWidget):
         main_layout.addLayout(bt_list, 1, 4, 4, 1)
 
         self.refrech_offers()
-
         self.setLayout(main_layout)
     
-
     def bt_addUser_clicked(self):
         self.add_user = gui_addUser(self.appMgr, self.user_account)
         self.add_user.exec()
@@ -151,10 +148,19 @@ class gui_home(QWidget):
 
     
     def bt_editOffer_clicked(self):
+        if self.lastSelectedOffer == None:
+            self.bt_editOffer.setEnabled(False)
+            self.bt_copyOffer.setEnabled(False)
+            return
+        self.editOffer = gui_editOffer(self.appMgr, self.user_account, self.lastSelectedOffer)
+        self.editOffer.exec()
         self.refrech_offers()
-        return
     
     def bt_copyOffer_clicked(self):
+        if self.lastSelectedOffer == None:
+            self.bt_editOffer.setEnabled(False)
+            self.bt_copyOffer.setEnabled(False)
+            return
         self.refrech_offers()
         return
         
@@ -164,8 +170,6 @@ class gui_home(QWidget):
 
 
     def refrech_offers(self):
-
-        #self.offers_view.reset()
         data_list = []
         for offer in self.user_account.getAllOffers():
             
@@ -186,12 +190,17 @@ class gui_home(QWidget):
         
         table_model = MyTableModel(self, data_list, self.header)
         self.offers_view.setModel(table_model)
+        self.offers_view.selectionModel().selectionChanged.connect(self.on_selectionChanged)
 
-    def on_selectionChanged(self):
-        print(selectedIndexes())   
-        print(type(selectedIndexes()))
-        return
-
+    def on_selectionChanged(self, selected, deselected):
+        self.bt_editOffer.setEnabled(False)
+        self.bt_copyOffer.setEnabled(False)
+        self.lastSelectedOffer = None
+        for i in list(set([i.row() for i in self.offers_view.selectionModel().selectedIndexes()])):
+            self.lastSelectedOffer = self.user_account.getAllOffers()[i]
+            self.bt_editOffer.setEnabled(True)
+            self.bt_copyOffer.setEnabled(True)
+            
     def center(self):
         qtRectangle = self.frameGeometry()
         centerPoint = QDesktopWidget().availableGeometry().center()

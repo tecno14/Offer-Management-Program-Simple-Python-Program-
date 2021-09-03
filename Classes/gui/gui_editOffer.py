@@ -26,16 +26,16 @@ from Classes.users.admin import admin
 
 from Classes.offers.categories import categories
 from Classes.offers.tags import tags
-
 from Classes.offers.offer import offer
 
 class gui_editOffer(QDialog):
     
-    def __init__(self, appMgr, user_account):
+    def __init__(self, appMgr, user_account, Selected_offer):
         super().__init__()
         from Classes.appManager import appManager
         self.appMgr = appMgr
         self.user_account = user_account
+        self.Selected_offer = Selected_offer
         self.setWindowTitle("Edit Offer")
         #self.setFixedSize(400, 200)
         self.setGeometry( 200, 200, 600, 400 )
@@ -55,7 +55,7 @@ class gui_editOffer(QDialog):
         lb_name.setAlignment(Qt.AlignCenter)
         # textbox 
         self.tb_name = QLineEdit()
-        self.tb_name.setText("name")
+        self.tb_name.setText(self.Selected_offer.name)
         # ----- 
         # customer name
         # lable 
@@ -63,7 +63,7 @@ class gui_editOffer(QDialog):
         lb_custName.setAlignment(Qt.AlignCenter)
         # textbox 
         self.tb_custName = QLineEdit()
-        self.tb_custName.setText("custName")
+        self.tb_custName.setText(self.Selected_offer.customerName)
         # -----
         # details
         # lable 
@@ -71,7 +71,7 @@ class gui_editOffer(QDialog):
         lb_det.setAlignment(Qt.AlignCenter)
         # textbox 
         self.tb_det = QLineEdit()
-        self.tb_det.setText("det")
+        self.tb_det.setText(self.Selected_offer.details)
         # -----
         # categories
         # lable 
@@ -83,9 +83,9 @@ class gui_editOffer(QDialog):
         for cat in categories.getAllList():
             item = QStandardItem(str(cat).replace('categories.',''))
             item.setCheckable(True)
-            # check = \
-            #     (QtCore.Qt.Checked if checked else QtCore.Qt.Unchecked)
-            item.setCheckState(Qt.Unchecked)
+            check = \
+                (Qt.Checked if cat in self.Selected_offer.categories else Qt.Unchecked)
+            item.setCheckState(check)
             self.model_cat.appendRow(item)
         self.listView_cat.setModel(self.model_cat)
 
@@ -98,11 +98,12 @@ class gui_editOffer(QDialog):
         self.model_tag = QStandardItemModel()
         self.listView_tag = QListView()
         for tag in tags.getAllList():
+            self.Selected_offer.tags
             item = QStandardItem(str(tag).replace('tags.',''))
             item.setCheckable(True)
-            # check = \
-            #     (QtCore.Qt.Checked if checked else QtCore.Qt.Unchecked)
-            item.setCheckState(Qt.Unchecked)
+            check = \
+                (Qt.Checked if tag in self.Selected_offer.tags else Qt.Unchecked)
+            item.setCheckState(check)
             self.model_tag.appendRow(item)
         self.listView_tag.setModel(self.model_tag)
         # -----
@@ -151,25 +152,14 @@ class gui_editOffer(QDialog):
             if self.model_tag.item(i).checkState() == Qt.Checked:
                 tgs.append(tags[self.model_tag.item(i).text()])
         
-        newOffer = offer()
-        newOffer.name = self.tb_name.text()
-        newOffer.customerName = self.tb_custName.text()
-        newOffer.details = self.tb_det.text()
+        # newOffer = offer()
+        self.Selected_offer.name = self.tb_name.text()
+        self.Selected_offer.customerName = self.tb_custName.text()
+        self.Selected_offer.details = self.tb_det.text()
 
-        newOffer.categories = cats
-        newOffer.tags = tgs
-
-        res = self.user_account.addOffer(newOffer)
-        if res != True:
-            msg = QMessageBox()
-            msg.setWindowTitle("error")
-            msg.setText("error at adding this offer")
-            msg.setIcon(QMessageBox.Critical)
-            msg.setStandardButtons(QMessageBox.Ok)
-            x = msg.exec_()
-            return
-        print("add offer return:")
-        print(res)
+        self.Selected_offer.categories = cats
+        self.Selected_offer.tags = tgs
+        self.appMgr.saveOffers()
         self.close()
 
     def center(self):

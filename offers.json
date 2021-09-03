@@ -47,11 +47,18 @@
     },
     "3": {
         "id": "eb747f97-c07c-4330-8c55-82e36ab3a779",
-        "name": "name",
-        "customerName": "custName",
+        "name": "33333333",
+        "customerName": "666666666666",
         "details": "det",
-        "categories": [],
+        "categories": [
+            "categories.mobile_app",
+            "categories.website",
+            "categories.microservice"
+        ],
         "tags": [
+            "tags.e_commerce",
+            "tags.delivery",
+            "tags.maps",
             "tags.tracking"
         ],
         "path": ".\\offers\\eb747f97-c07c-4330-8c55-82e36ab3a779.docx",

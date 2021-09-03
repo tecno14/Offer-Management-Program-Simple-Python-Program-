@@ -12,7 +12,7 @@ class offerManager:
         self.offersDir = offersDir
         self.offersData = offersData
 
-    def __save(self):
+    def save(self):
         with open(self.offersData, "w") as f:
             data = {}
             for i in range(len(self.__offers)):
@@ -33,7 +33,7 @@ class offerManager:
                     self.__offers.append(offer(i))
             # except:
             #     self.__offers = []
-            #     self.__save() 
+            #     self.save() 
 
         return self.__offers
 
@@ -78,5 +78,5 @@ class offerManager:
 
     def addOffer(self, offer):
         self.__offers.append(offer)
-        self.__save()
+        self.save()
         return True
