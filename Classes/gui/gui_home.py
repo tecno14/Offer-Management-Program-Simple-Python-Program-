@@ -236,11 +236,9 @@ class gui_home(QWidget):
         data_list = []
         for offer in offerSource:
             
-            offer_categories = ', '.join([str(x) for x in offer.categories])
-            offer_categories.replace('categories.', '')
+            offer_categories = ', '.join([str(x).replace('categories.', '') for x in offer.categories])
 
-            offer_tags = ', '.join([str(x) for x in offer.tags])
-            offer_tags.replace('tags.', '')
+            offer_tags = ', '.join([str(x).replace('tags.', '') for x in offer.tags])
 
             # ['Name', 'Customer Name', 'Details', 'Categories', 'Tags']
             data_list.append((
